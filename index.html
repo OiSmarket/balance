@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OIS Market — Личный кабинет</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400,italic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/Личный кабинет/Главная/css/dashboard.css">
+  <link rel="stylesheet" href="/Личный кабинет/Баланс/css/balance.css">
+  <script src="https://kit.fontawesome.com/4e9c8e4e7b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="loader">
+  <div class="spinner"></div>
+</div>
+  <!-- Бургер вне сайдбара! -->
+  <div class="burger" id="burger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="dashboard-container">
+    <aside class="sidebar animate-fadein" id="sidebar">
+      <div class="sidebar-header">
+        <img src="https://placehold.co/80x80" alt="Аватар" class="avatar">
+        <div class="user-info">
+          <div class="user-name">Иван Иванов</div>
+          <div class="user-role">Партнёр</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="https://oismarket.github.io/dashboard-main/"><i class="fas fa-home"></i> Главная</a>
+        <a href="#" class="active" ><i class="fas fa-wallet"></i> Баланс</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+      </nav>
+    </aside>
+   <main class="dashboard-main">
+  <header class="dashboard-header animate-slidein">
+    <div class="dashboard-title">Баланс</div>
+    <div class="dashboard-actions">
+      <a href="#" class="action-btn"><i class="fas fa-bell"></i></a>
+      <a href="#" class="action-btn"><i class="fas fa-question-circle"></i></a>
+    </div>
+  </header>
+  <section class="balance-main animate-fadein">
+    <div class="balance-card">
+      <div class="balance-label">Текущий баланс</div>
+      <div class="balance-amount" id="balance-amount">12 500 ₽</div>
+      <div class="balance-actions">
+  <button class="balance-btn balance-btn--out morph-btn" id="withdraw-btn">Вывести</button>
+</div>
+    </div>
+    <div class="modal" id="withdraw-modal">
+  <div class="modal-content">
+    <h2>В процессе разработки</h2>
+    <p>Эта функция скоро будет доступна.</p>
+    <button class="modal-close morph-btn" id="modal-close">❌</button>
+  </div>
+</div>
+    <div class="balance-analytics">
+      <div>
+        <div class="balance-analytics-label">Поступило за месяц</div>
+        <div class="balance-analytics-value">+3 200 ₽</div>
+      </div>
+      <div>
+        <div class="balance-analytics-label">Выведено за месяц</div>
+        <div class="balance-analytics-value">-1 000 ₽</div>
+      </div>
+    </div>
+    <div class="balance-history">
+      <div class="balance-history-title">История операций</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>Тип</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+          </tr>
+        </thead>
+        <tbody id="balance-history-body">
+          <tr>
+            <td>31.05.2025</td>
+            <td>Пополнение</td>
+            <td>+2 000 ₽</td>
+            <td class="status success">Завершено</td>
+          </tr>
+          <tr>
+            <td>28.05.2025</td>
+            <td>Вывод</td>
+            <td>-1 000 ₽</td>
+            <td class="status success">Завершено</td>
+          </tr>
+          <tr>
+            <td>20.05.2025</td>
+            <td>Пополнение</td>
+            <td>+1 200 ₽</td>
+            <td class="status pending">В обработке</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+  </div>
+  <script src="/Личный кабинет/Главная/js/dashboard.js"></script>
+  <script src="/Личный кабинет/Баланс/js/balance.js"></script>
+</body>
+</html>
