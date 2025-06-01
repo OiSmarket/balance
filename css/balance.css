@@ -299,3 +299,24 @@
     padding: 16px 4px 0 4px;
   }
 }
+/* Адаптивность для карточек (уменьшаем отступы и шрифт) */
+@media (max-width: 600px) {
+  .balance-card {
+    padding: 20px 24px; /* Уменьшаем внутренние отступы */
+  }
+
+  .balance-label {
+    font-size: 0.9rem; /* Уменьшаем размер подписи */
+    margin-bottom: 8px;
+  }
+
+  .balance-amount {
+    font-size: 2rem; /* Уменьшаем размер баланса */
+    margin-bottom: 12px;
+  }
+
+  .balance-btn {
+    padding: 8px 18px; /* Уменьшаем отступы кнопок */
+    font-size: 0.9rem;
+  }
+}
