@@ -288,3 +288,14 @@
     padding: 24px 28px;
   }
 }
+@media (max-width: 600px) {
+  .balance-card {
+    padding: 10px 6px;
+    max-width: 95%;
+    font-size: 0.95em; /* если нужно уменьшить текст */
+  }
+  .balance-main {
+    gap: 12px;
+    padding: 16px 4px 0 4px;
+  }
+}
