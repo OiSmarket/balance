@@ -330,6 +330,18 @@ body {
     padding: 8px;
   }
 }
+@media (max-width: 480px) {
+  .burger {
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+  }
+  .burger span {
+    width: 22px;
+    height: 3px;
+  }
+}
 
 /* Анимации */
 @keyframes fadein {
