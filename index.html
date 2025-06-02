@@ -19,6 +19,11 @@
   --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
 body {
   font-family: 'Montserrat', Arial, sans-serif;
   background: var(--main-gradient);
@@ -30,6 +35,9 @@ body {
   display: flex;
   min-height: 100vh;
   backdrop-filter: var(--glass-blur);
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 .sidebar {
   width: 270px;
@@ -168,12 +176,17 @@ body {
   background: rgba(255,255,255,0.04);
   min-height: 100vh;
   backdrop-filter: var(--glass-blur);
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 .dashboard-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 40px 48px 0 48px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .dashboard-title {
   font-size: 2.2rem;
@@ -209,6 +222,8 @@ body {
   gap: 36px;
   padding: 36px 48px 0 48px;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 .widget {
   background: var(--glass-bg);
@@ -224,6 +239,9 @@ body {
   transition: box-shadow 0.18s, transform 0.18s;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .widget:hover {
   box-shadow: 0 8px 40px rgba(224,64,251,0.18);
@@ -245,6 +263,8 @@ body {
 }
 .dashboard-content {
   padding: 48px 48px 0 48px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .dashboard-content h2 {
   font-size: 1.5rem;
@@ -268,6 +288,9 @@ body {
   box-shadow: var(--shadow);
   border: 1.5px solid var(--glass-border);
   backdrop-filter: var(--glass-blur);
+  width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 .dashboard-balance-history h3 {
   color: var(--accent);
@@ -279,6 +302,7 @@ body {
   border-collapse: collapse;
   color: var(--white);
   font-size: 1rem;
+  min-width: 400px;
 }
 .dashboard-balance-history th, .dashboard-balance-history td {
   padding: 10px 8px;
@@ -322,6 +346,7 @@ body {
   .widget {
     width: 100%;
     min-width: unset;
+    max-width: 100%;
   }
 }
 @media (max-width: 900px) {
@@ -340,12 +365,13 @@ body {
   }
   .dashboard-container {
     padding-left: 0 !important;
+    width: 100vw;
+    max-width: 100vw;
   }
-}
-@media (max-width: 600px) {
   .dashboard-header, .dashboard-widgets, .dashboard-content {
     padding-left: 10px;
     padding-right: 10px;
+    box-sizing: border-box;
   }
   .dashboard-header {
     padding-top: 16px;
@@ -356,6 +382,8 @@ body {
   .widget {
     padding: 18px 14px;
     border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
   }
   .sidebar-header {
     padding: 8px;
@@ -363,6 +391,48 @@ body {
   .dashboard-balance-history {
     padding: 10px 4px;
     border-radius: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard-header, .dashboard-widgets, .dashboard-content {
+    padding-left: 4px;
+    padding-right: 4px;
+    box-sizing: border-box;
+  }
+  .dashboard-header {
+    padding-top: 8px;
+  }
+  .dashboard-content {
+    padding-top: 10px;
+  }
+  .widget {
+    padding: 10px 4px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .sidebar-header {
+    padding: 4px;
+  }
+  .dashboard-balance-history {
+    padding: 4px 2px;
+    border-radius: 8px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .burger {
+    top: 8px;
+    right: 8px;
+    width: 38px;
+    height: 38px;
+  }
+  .burger span {
+    width: 22px;
+    height: 3px;
   }
 }
 @keyframes fadein {
@@ -407,8 +477,8 @@ body {
     </div>
     </div>
     <nav class="sidebar-nav" id="sidebarNav">
-    <a href="https://oismarket.github.io/dashboard-main/"><i class="fas fa-home"></i> Главная</a>
-    <a href="https://oismarket.github.io/balance/" class="active"><i class="fas fa-wallet"></i> Баланс</a>
+    <a href="#"><i class="fas fa-home"></i> Главная</a>
+    <a href="#" class="active"><i class="fas fa-wallet"></i> Баланс</a>
     <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
     <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
     </nav>
@@ -422,7 +492,7 @@ body {
     </div>
     </header>
     <section class="dashboard-widgets">
-    <div class="widget animate-pop" style="width:100%">
+    <div class="widget animate-pop">
       <div class="widget-title">Текущий баланс</div>
       <div class="widget-value">$1,250.00</div>
       <button class="balance-btn" style="margin-top:22px;"><i class="fas fa-arrow-circle-up"></i> Вывести средства</button>
