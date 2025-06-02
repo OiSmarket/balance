@@ -288,25 +288,58 @@
     padding: 24px 28px;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 600px) {
+  .balance-main {
+    padding: 10px 0 0 0 !important;
+    gap: 12px !important;
+  }
   .balance-card {
-    max-width: 95% !important; /* Ещё меньше места */
-    align-items: center !important; /* Центрируем контент */
-    text-align: center !important; /* Выравниваем текст по центру */
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 12px 6px !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    margin: 0 auto 0 auto !important;
   }
-
+  .balance-label {
+    font-size: 0.95rem !important;
+    margin-bottom: 4px !important;
+  }
   .balance-amount {
-    font-size: 1.6rem !important; /* Ещё меньше баланс */
-    word-break: break-word; /* Перенос длинных чисел */
+    font-size: 1.3rem !important;
+    margin-bottom: 8px !important;
+    word-break: break-word !important;
   }
-
   .balance-actions {
-    flex-direction: column !important; /* Кнопки в столбик */
-    align-items: stretch !important; /* Кнопки на всю ширину */
+    gap: 8px !important;
   }
-
   .balance-btn {
-    width: 100% !important; /* Кнопки на всю ширину */
-    padding: 9px 12px !important; /* Чуть больше отступы */
+    padding: 8px 0 !important;
+    font-size: 0.95rem !important;
+    border-radius: 7px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .balance-analytics {
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 0 6px !important;
+  }
+  .balance-analytics-label {
+    font-size: 0.92rem !important;
+  }
+  .balance-analytics-value {
+    font-size: 1.05rem !important;
+  }
+  .balance-history {
+    padding: 8px 2px 4px 2px !important;
+    border-radius: 10px !important;
+    font-size: 0.95rem !important;
+  }
+  .modal-content {
+    padding: 12px 4px !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
   }
 }
