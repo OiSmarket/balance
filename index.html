@@ -3,424 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OIS Market — Баланс</title>
+  <title>OIS Market — Главная</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400,italic&display=swap" rel="stylesheet">
   <style>
-:root {
-  --main-gradient: linear-gradient(120deg, #1a237e 0%, #e040fb 100%);
-  --sidebar-gradient: linear-gradient(120deg, #6a1878 0%, #340f54 100%);
-  --accent: #ff4081;
-  --white: #fff;
-  --glass-bg: rgba(255,255,255,0.13);
-  --glass-blur: blur(16px);
-  --glass-border: rgba(255,255,255,0.18);
-  --gray: #f5f5f7;
-  --blue: #1a237e;
-  --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  width: 100%;
-  min-width: 0;
-  overflow-x: hidden;
-}
-body {
-  font-family: 'Montserrat', Arial, sans-serif;
-  background: var(--main-gradient);
-  color: var(--white);
-  min-height: 100vh;
-  letter-spacing: 0.01em;
-}
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  backdrop-filter: var(--glass-blur);
-}
-.sidebar {
-  width: 270px;
-  background: var(--sidebar-gradient);
-  display: flex;
-  flex-direction: column;
-  padding: 36px 0 0 0;
-  box-shadow: 2px 0 24px rgba(26,35,126,0.10);
-  border-right: 1.5px solid var(--glass-border);
-  position: relative;
-  z-index: 1000;
-  transition: left 0.3s cubic-bezier(.4,2,.6,1);
-}
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  padding: 0 32px 32px 32px;
-  border-bottom: 1px solid rgba(255,255,255,0.10);
-  position: relative;
-}
-.avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  margin-right: 20px;
-  border: 3px solid var(--accent);
-  background: var(--white);
-  box-shadow: 0 2px 12px rgba(224,64,251,0.10);
-  object-fit: cover;
-}
-.user-info {
-  display: flex;
-  flex-direction: column;
-}
-.user-name {
-  font-weight: 700;
-  font-size: 1.15rem;
-  margin-bottom: 4px;
-  color: var(--white);
-}
-.user-role {
-  font-size: 0.98rem;
-  color: var(--accent);
-  opacity: 0.85;
-  font-weight: 500;
-}
-.burger {
-  display: none;
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
-  z-index: 2001;
-  background: var(--glass-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(32,8,64,0.10);
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin: 0;
-}
-.burger span {
-  display: block;
-  width: 28px;
-  height: 4px;
-  margin: 4px 0;
-  background: var(--white);
-  border-radius: 2px;
-  transition: 0.3s;
-}
-.burger.active {
-  background: var(--glass-bg);
-}
-.burger.active span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-.burger.active span:nth-child(2) {
-  opacity: 0;
-}
-.burger.active span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  margin-top: 36px;
-  gap: 8px;
-  padding: 0 18px;
-  transition: max-height 0.35s cubic-bezier(.4,2,.6,1), padding 0.2s;
-}
-.sidebar-nav a {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--white);
-  text-decoration: none;
-  padding: 14px 22px;
-  border-radius: 12px;
-  font-size: 1.05rem;
-  opacity: 0.85;
-  transition: 
-    background 0.18s, 
-    opacity 0.18s, 
-    color 0.18s, 
-    box-shadow 0.18s;
-  font-weight: 500;
-  position: relative;
-}
-.sidebar-nav a.active,
-.sidebar-nav a:hover {
-  background: var(--glass-bg);
-  box-shadow: 0 2px 12px rgba(224,64,251,0.10);
-  opacity: 1;
-  color: var(--accent);
-}
-.sidebar-nav a.active::before,
-.sidebar-nav a:hover::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 32px;
-  border-radius: 4px;
-  background: var(--accent);
-  opacity: 0.7;
-}
-.dashboard-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255,255,255,0.04);
-  min-height: 100vh;
-  backdrop-filter: var(--glass-blur);
-}
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 48px 0 48px;
-}
-.dashboard-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--white);
-  letter-spacing: 0.01em;
-  text-shadow: 0 2px 12px rgba(32, 8, 64, 0.10);
-}
-.dashboard-actions {
-  display: flex;
-  gap: 22px;
-}
-.action-btn {
-  color: var(--white);
-  font-size: 1.5rem;
-  opacity: 0.8;
-  transition: opacity 0.2s, color 0.2s, transform 0.2s;
-  text-decoration: none;
-  border-radius: 50%;
-  padding: 8px;
-  background: transparent;
-  border: none;
-  outline: none;
-}
-.action-btn:hover {
-  opacity: 1;
-  color: var(--accent);
-  background: var(--glass-bg);
-  transform: scale(1.12);
-}
-.dashboard-widgets {
-  display: flex;
-  gap: 36px;
-  padding: 36px 48px 0 48px;
-  flex-wrap: wrap;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.widget {
-  background: var(--glass-bg);
-  border-radius: 22px;
-  padding: 32px 44px;
-  min-width: 210px;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1.5px solid var(--glass-border);
-  backdrop-filter: var(--glass-blur);
-  transition: box-shadow 0.18s, transform 0.18s;
-  position: relative;
-  overflow: hidden;
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-}
-.dashboard-content {
-  padding: 48px 48px 0 48px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.dashboard-balance-history {
-  margin-top: 32px;
-  background: var(--glass-bg);
-  border-radius: 18px;
-  padding: 24px 32px;
-  box-shadow: var(--shadow);
-  border: 1.5px solid var(--glass-border);
-  backdrop-filter: var(--glass-blur);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.dashboard-balance-history h3 {
-  color: var(--accent);
-  font-size: 1.15rem;
-  margin-bottom: 16px;
-}
-.dashboard-balance-history table {
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--white);
-  font-size: 1rem;
-}
-.dashboard-balance-history th, .dashboard-balance-history td {
-  padding: 10px 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  text-align: left;
-}
-.dashboard-balance-history th {
-  color: var(--accent);
-  font-weight: 600;
-}
-.dashboard-balance-history tr:last-child td {
-  border-bottom: none;
-}
-.balance-actions {
-  margin-top: 28px;
-  display: flex;
-  gap: 18px;
-}
-.balance-btn {
-  background: var(--accent);
-  color: var(--white);
-  border: none;
-  border-radius: 10px;
-  padding: 14px 32px;
-  font-size: 1.08rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 2px 12px rgba(224,64,251,0.10);
-  transition: background 0.18s, transform 0.18s;
-  margin-top: 18px;
-}
-.balance-btn:hover {
-  background: #e040fb;
-  transform: translateY(-2px) scale(1.04);
-}
-@media (max-width: 1200px) {
-  .dashboard-widgets {
-    flex-direction: column;
-    gap: 22px;
-  }
-  .widget {
-    width: 100%;
-    min-width: unset;
-  }
-}
-@media (max-width: 900px) {
-  .burger { display: flex; position: fixed; top: 16px; right: 16px; }
-  .sidebar {
-    position: fixed;
-    left: -270px;
-    top: 0;
-    height: 100vh;
-    width: 270px;
-    transition: left 0.3s cubic-bezier(.4,2,.6,1);
-    z-index: 1000;
-  }
-  .sidebar.open {
-    left: 0;
-  }
-  .dashboard-container {
-    padding-left: 0 !important;
-  }
-  .dashboard-header, .dashboard-widgets, .dashboard-content {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .dashboard-header {
-    padding-top: 56px; /* место для бургера */
-    justify-content: flex-start;
-    gap: 16px;
-  }
-  .dashboard-title {
-    font-size: 1.4rem;
-  }
-  .dashboard-content {
-    padding-top: 18px;
-  }
-  .widget {
-    padding: 18px 14px;
-    border-radius: 14px;
-    width: 100%;
-    min-width: unset;
-  }
-  .sidebar-header {
-    padding: 8px;
-  }
-  .dashboard-balance-history {
-    padding: 10px 4px;
-    border-radius: 10px;
-    width: 100%;
-    min-width: 0;
-    overflow-x: auto;
-  }
-}
-@media (max-width: 600px) {
-  .dashboard-header, .dashboard-widgets, .dashboard-content {
-    padding-left: 4px;
-    padding-right: 4px;
-  }
-  .dashboard-header {
-    padding-top: 44px;
-  }
-  .dashboard-content {
-    padding-top: 10px;
-  }
-  .widget {
-    padding: 10px 4px;
-    border-radius: 10px;
-    width: 100%;
-    min-width: unset;
-  }
-  .sidebar-header {
-    padding: 4px;
-  }
-  .dashboard-balance-history {
-    padding: 4px 2px;
-    border-radius: 8px;
-    width: 100%;
-    min-width: 0;
-    overflow-x: auto;
-  }
-  .burger {
-    top: 8px;
-    right: 8px;
-    width: 38px;
-    height: 38px;
-  }
-  .burger span {
-    width: 22px;
-    height: 3px;
-  }
-}
-@keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slidein {
-  from { opacity: 0; transform: translateY(-30px);}
-  to   { opacity: 1; transform: translateY(0);}
-}
-@keyframes pop {
-  0%   { opacity: 0; transform: scale(0.7);}
-  80%  { opacity: 1; transform: scale(1.05);}
-  100% { opacity: 1; transform: scale(1);}
-}
-.animate-fadein {
-  animation: fadein 0.7s cubic-bezier(.4,2,.6,1) both;
-}
-.animate-slidein {
-  animation: slidein 0.7s cubic-bezier(.4,2,.6,1) both;
-}
-.animate-pop {
-  animation: pop 0.7s cubic-bezier(.4,2,.6,1) both;
-}
+    :root {
+      --main-gradient: linear-gradient(120deg, #1a237e 0%, #e040fb 100%);
+      --sidebar-gradient: linear-gradient(120deg, #6a1878 0%, #340f54 100%);
+      --accent: #ff4081;
+      --white: #fff;
+      --glass-bg: rgba(255,255,255,0.13);
+      --glass-blur: blur(16px);
+      --glass-border: rgba(255,255,255,0.18);
+      --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; min-width: 0; overflow-x: hidden; }
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--main-gradient);
+      color: var(--white);
+      min-height: 100vh;
+      letter-spacing: 0.01em;
+    }
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      backdrop-filter: var(--glass-blur);
+    }
+    .sidebar {
+      width: 270px;
+      background: var(--sidebar-gradient);
+      display: flex;
+      flex-direction: column;
+      padding: 36px 0 0 0;
+      box-shadow: 2px 0 24px rgba(26,35,126,0.10);
+      border-right: 1.5px solid var(--glass-border);
+      position: relative;
+      z-index: 1000;
+      transition: left 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 0 32px 32px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      position: relative;
+    }
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin-right: 20px;
+      border: 3px solid var(--accent);
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(224,64,251,0.10);
+      object-fit: cover;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-name {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+    .user-role {
+      font-size: 0.98rem;
+      color: var(--accent);
+      opacity: 0.85;
+      font-weight: 500;
+    }
+    .burger {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      z-index: 2001;
+      background: var(--glass-bg);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(32,8,64,0.10);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin: 0;
+    }
+    .burger span {
+      display: block;
+      width: 28px;
+      height: 4px;
+      margin: 4px 0;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .burger.active { background: var(--glass-bg); }
+    .burger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      margin-top: 36px;
+      gap: 8px;
+      padding: 0 18px;
+      transition: max-height 0.35s cubic-bezier(.4,2,.6,1), padding 0.2s;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      opacity: 0.85;
+      transition: background 0.18s, opacity 0.18s, color 0.18s, box-shadow 0.18s;
+      font-weight: 500;
+      position: relative;
+    }
+    .sidebar-nav a.active,
+    .sidebar-nav a:hover {
+      background: var(--glass-bg);
+      box-shadow: 0 2px 12px rgba(224,64,251,0.10);
+      opacity: 1;
+      color: var(--accent);
+    }
+    .sidebar-nav a.active::before,
+    .sidebar-nav a:hover::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 32px;
+      border-radius: 4px;
+      background: var(--accent);
+      opacity: 0.7;
+    }
+    .dashboard-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.04);
+      min-height: 100vh;
+      backdrop-filter: var(--glass-blur);
+    }
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 48px 0 48px;
+    }
+    .dashboard-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px rgba(32, 8, 64, 0.10);
+    }
+    .dashboard-widgets {
+      display: flex;
+      gap: 36px;
+      padding: 36px 48px 0 48px;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .dashboard-content {
+      padding: 48px 48px 0 48px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    @media (max-width: 1200px) {
+      .dashboard-widgets { flex-direction: column; gap: 22px; }
+    }
+    @media (max-width: 900px) {
+      .burger { display: flex; position: fixed; top: 16px; right: 16px; }
+      .sidebar {
+        position: fixed;
+        left: -270px;
+        top: 0;
+        height: 100vh;
+        width: 270px;
+        transition: left 0.3s cubic-bezier(.4,2,.6,1);
+        z-index: 1000;
+      }
+      .sidebar.open { left: 0; }
+      .dashboard-container { padding-left: 0 !important; }
+      .dashboard-header, .dashboard-widgets, .dashboard-content {
+        padding-left: 10px; padding-right: 10px;
+      }
+      .dashboard-header { padding-top: 56px; justify-content: flex-start; gap: 16px; }
+      .dashboard-title { font-size: 1.4rem; }
+      .dashboard-content { padding-top: 18px; }
+    }
+    @media (max-width: 600px) {
+      .dashboard-header, .dashboard-widgets, .dashboard-content {
+        padding-left: 4px; padding-right: 4px;
+      }
+      .dashboard-header { padding-top: 44px; }
+      .dashboard-content { padding-top: 10px; }
+      .burger { top: 8px; right: 8px; width: 38px; height: 38px; }
+      .burger span { width: 22px; height: 3px; }
+    }
   </style>
-  <script src="https://kit.fontawesome.com/4e9c8e4e7b.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- Бургер вне сайдбара! -->
   <div class="burger" id="burger">
     <span></span>
     <span></span>
@@ -428,91 +224,52 @@ body {
   </div>
   <div class="dashboard-container">
     <aside class="sidebar animate-fadein" id="sidebar">
-    <div class="sidebar-header">
-    <img src="https://placehold.co/80x80" alt="Аватар" class="avatar">
-    <div class="user-info">
-    <div class="user-name">Иван Иванов</div>
-    <div class="user-role">Партнёр</div>
-    </div>
-    </div>
-    <nav class="sidebar-nav" id="sidebarNav">
-    <a href="#"><i class="fas fa-home"></i> Главная</a>
-    <a href="#" class="active"><i class="fas fa-wallet"></i> Баланс</a>
-    <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
-    <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
-    </nav>
+      <div class="sidebar-header">
+        <img src="https://placehold.co/80x80" alt="Аватар" class="avatar">
+        <div class="user-info">
+          <div class="user-name">Имя Фамилия</div>
+          <div class="user-role">Роль</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="#" class="active"><i class="fas fa-home"></i> Главная</a>
+        <a href="#"><i class="fas fa-wallet"></i> Баланс</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+      </nav>
     </aside>
     <main class="dashboard-main">
-    <header class="dashboard-header animate-slidein">
-    <div class="dashboard-title">Ваш баланс</div>
-    <div class="dashboard-actions">
-    <a href="#" class="action-btn"><i class="fas fa-bell"></i></a>
-    <a href="#" class="action-btn"><i class="fas fa-question-circle"></i></a>
-    </div>
-    </header>
-    <section class="dashboard-widgets">
-    <div class="widget animate-pop" style="width:100%">
-      <div class="widget-title">Текущий баланс</div>
-      <div class="widget-value">$1,250.00</div>
-      <button class="balance-btn" style="margin-top:22px;"><i class="fas fa-arrow-circle-up"></i> Вывести средства</button>
-    </div>
-    </section>
-    <section class="dashboard-content animate-fadein" style="animation-delay:0.3s">
-    <h2>История операций</h2>
-    <div class="dashboard-balance-history">
-      <h3>Последние транзакции</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Дата</th>
-            <th>Тип</th>
-            <th>Сумма</th>
-            <th>Статус</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>01.06.2025</td>
-            <td>Вывод средств</td>
-            <td>-$200.00</td>
-            <td>Выполнено</td>
-          </tr>
-          <tr>
-            <td>28.05.2025</td>
-            <td>Поступление</td>
-            <td>+$320.00</td>
-            <td>Зачислено</td>
-          </tr>
-          <tr>
-            <td>20.05.2025</td>
-            <td>Поступление</td>
-            <td>+$150.00</td>
-            <td>Ожидание</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    </section>
+      <header class="dashboard-header animate-slidein">
+        <div class="dashboard-title">Заголовок страницы</div>
+        <div class="dashboard-actions">
+          <!-- Здесь могут быть кнопки -->
+        </div>
+      </header>
+      <section class="dashboard-widgets">
+        <!-- Здесь будут виджеты -->
+      </section>
+      <section class="dashboard-content animate-fadein" style="animation-delay:0.3s">
+        <!-- Здесь основной контент -->
+      </section>
     </main>
   </div>
+  <script src="https://kit.fontawesome.com/4e9c8e4e7b.js" crossorigin="anonymous"></script>
   <script>
-// Бургер-меню для мобильной навигации
-  document.addEventListener('DOMContentLoaded', function() {
-    const burger = document.getElementById('burger');
-    const sidebar = document.getElementById('sidebar');
-    burger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      burger.classList.toggle('active');
-      sidebar.classList.toggle('open');
+    document.addEventListener('DOMContentLoaded', function() {
+      const burger = document.getElementById('burger');
+      const sidebar = document.getElementById('sidebar');
+      burger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        burger.classList.toggle('active');
+        sidebar.classList.toggle('open');
+      });
+      document.addEventListener('click', function(e) {
+        if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
+          burger.classList.remove('active');
+          sidebar.classList.remove('open');
+        }
+      });
     });
-    // Клик вне меню — закрыть
-    document.addEventListener('click', function(e) {
-      if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
-      burger.classList.remove('active');
-      sidebar.classList.remove('open');
-      }
-    });
-  });
   </script>
 </body>
 </html>
