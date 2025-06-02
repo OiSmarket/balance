@@ -18,7 +18,9 @@
   --blue: #1a237e;
   --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: 'Montserrat', Arial, sans-serif;
   background: var(--main-gradient);
@@ -26,11 +28,39 @@ body {
   min-height: 100vh;
   letter-spacing: 0.01em;
 }
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Убедитесь, что он находится поверх всего */
+}
+
+.spinner {
+  border: 5px solid #f3f3f3; /* Светло-серый */
+  border-top: 5px solid #3498db; /* Синий */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
   backdrop-filter: var(--glass-blur);
 }
+
 .sidebar {
   width: 270px;
   background: var(--sidebar-gradient);
@@ -43,6 +73,7 @@ body {
   z-index: 1000;
   transition: left 0.3s cubic-bezier(.4,2,.6,1);
 }
+
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -50,6 +81,7 @@ body {
   border-bottom: 1px solid rgba(255,255,255,0.10);
   position: relative;
 }
+
 .avatar {
   width: 72px;
   height: 72px;
@@ -60,22 +92,27 @@ body {
   box-shadow: 0 2px 12px rgba(224,64,251,0.10);
   object-fit: cover;
 }
+
 .user-info {
   display: flex;
   flex-direction: column;
 }
+
 .user-name {
   font-weight: 700;
   font-size: 1.15rem;
   margin-bottom: 4px;
   color: var(--white);
 }
+
 .user-role {
   font-size: 0.98rem;
   color: var(--accent);
   opacity: 0.85;
   font-weight: 500;
 }
+
+/* Бургер-иконка в правом верхнем углу экрана */
 .burger {
   display: none;
   position: fixed;
@@ -115,6 +152,7 @@ body {
 .burger.active span:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
+
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -123,6 +161,7 @@ body {
   padding: 0 18px;
   transition: max-height 0.35s cubic-bezier(.4,2,.6,1), padding 0.2s;
 }
+
 .sidebar-nav a {
   display: flex;
   align-items: center;
@@ -141,6 +180,7 @@ body {
   font-weight: 500;
   position: relative;
 }
+
 .sidebar-nav a.active,
 .sidebar-nav a:hover {
   background: var(--glass-bg);
@@ -148,6 +188,7 @@ body {
   opacity: 1;
   color: var(--accent);
 }
+
 .sidebar-nav a.active::before,
 .sidebar-nav a:hover::before {
   content: '';
@@ -161,6 +202,7 @@ body {
   background: var(--accent);
   opacity: 0.7;
 }
+
 .dashboard-main {
   flex: 1;
   display: flex;
@@ -169,12 +211,14 @@ body {
   min-height: 100vh;
   backdrop-filter: var(--glass-blur);
 }
+
 .dashboard-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 40px 48px 0 48px;
 }
+
 .dashboard-title {
   font-size: 2.2rem;
   font-weight: 800;
@@ -182,10 +226,12 @@ body {
   letter-spacing: 0.01em;
   text-shadow: 0 2px 12px rgba(32, 8, 64, 0.10);
 }
+
 .dashboard-actions {
   display: flex;
   gap: 22px;
 }
+
 .action-btn {
   color: var(--white);
   font-size: 1.5rem;
@@ -204,12 +250,14 @@ body {
   background: var(--glass-bg);
   transform: scale(1.12);
 }
+
 .dashboard-widgets {
   display: flex;
   gap: 36px;
   padding: 36px 48px 0 48px;
   flex-wrap: wrap;
 }
+
 .widget {
   background: var(--glass-bg);
   border-radius: 22px;
@@ -229,6 +277,7 @@ body {
   box-shadow: 0 8px 40px rgba(224,64,251,0.18);
   transform: translateY(-4px) scale(1.03);
 }
+
 .widget-title {
   font-size: 1.08rem;
   color: var(--white);
@@ -237,15 +286,18 @@ body {
   font-weight: 500;
   letter-spacing: 0.01em;
 }
+
 .widget-value {
   font-size: 2.2rem;
   font-weight: 800;
   color: var(--accent);
   letter-spacing: 0.01em;
 }
+
 .dashboard-content {
   padding: 48px 48px 0 48px;
 }
+
 .dashboard-content h2 {
   font-size: 1.5rem;
   margin-bottom: 22px;
@@ -253,6 +305,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.01em;
 }
+
 .dashboard-content p {
   color: var(--white);
   opacity: 0.92;
@@ -260,6 +313,8 @@ body {
   line-height: 1.6;
   font-weight: 400;
 }
+
+/* Адаптивность и бургер-меню */
 @media (max-width: 1200px) {
   .dashboard-widgets {
     flex-direction: column;
@@ -270,6 +325,7 @@ body {
     min-width: unset;
   }
 }
+
 @media (max-width: 900px) {
   .burger { display: flex; }
   .sidebar {
@@ -288,6 +344,7 @@ body {
     padding-left: 0 !important;
   }
 }
+
 @media (max-width: 600px) {
   .dashboard-header, .dashboard-widgets, .dashboard-content {
     padding-left: 10px;
@@ -307,6 +364,8 @@ body {
     padding: 8px;
   }
 }
+
+/* Анимации */
 @keyframes fadein {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -333,6 +392,9 @@ body {
   <script src="https://kit.fontawesome.com/4e9c8e4e7b.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <div id="loader">
+  <div class="spinner"></div>
+</div>
   <!-- Бургер вне сайдбара! -->
   <div class="burger" id="burger">
     <span></span>
@@ -341,57 +403,93 @@ body {
   </div>
   <div class="dashboard-container">
     <aside class="sidebar animate-fadein" id="sidebar">
-    <div class="sidebar-header">
-    <img src="https://placehold.co/80x80" alt="Аватар" class="avatar">
-    <div class="user-info">
-    <div class="user-name">Иван Иванов</div>
-    <div class="user-role">Партнёр</div>
-    </div>
-    </div>
-    <nav class="sidebar-nav" id="sidebarNav">
-    <a href="#" class="active"><i class="fas fa-home"></i> Главная</a>
-    <a href="#"><i class="fas fa-wallet"></i> Баланс</a>
-    <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
-    <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
-    </nav>
+      <div class="sidebar-header">
+        <img src="Img/Logo.png" alt="Аватар" class="avatar">
+        <div class="user-info">
+          <div class="user-name">Иван Иванов</div>
+          <div class="user-role">Партнёр</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="https://oismarket.github.io/dashboard-main/" class="active"><i class="fas fa-home"></i> Главная</a>
+        <a href="https://oismarket.github.io/balance/"><i class="fas fa-wallet"></i> Баланс</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+      </nav>
     </aside>
     <main class="dashboard-main">
-    <header class="dashboard-header animate-slidein">
-    <div class="dashboard-title">Добро пожаловать, Иван!</div>
-    <div class="dashboard-actions">
-    <a href="#" class="action-btn"><i class="fas fa-bell"></i></a>
-    <a href="#" class="action-btn"><i class="fas fa-question-circle"></i></a>
-    </div>
-    </header>
-    <section class="dashboard-widgets">
-    <div class="widget animate-pop"><div class="widget-title">Баланс</div><div class="widget-value">12 500 ₽</div></div>
-    <div class="widget animate-pop" style="animation-delay:0.1s"><div class="widget-title">Продажи</div><div class="widget-value">8</div></div>
-    <div class="widget animate-pop" style="animation-delay:0.2s"><div class="widget-title">Заработано за месяц</div><div class="widget-value">3 200 ₽</div></div>
-    </section>
-    <section class="dashboard-content animate-fadein" style="animation-delay:0.3s">
-    <h2>Моя статистика</h2>
-    <p>Здесь будет подробная статистика по вашей команде, доходу и активности.</p>
-    </section>
+      <header class="dashboard-header animate-slidein">
+        <div class="dashboard-title">Добро пожаловать, Иван!</div>
+        <div class="dashboard-actions">
+          <a href="#" class="action-btn"><i class="fas fa-bell"></i></a>
+          <a href="#" class="action-btn"><i class="fas fa-question-circle"></i></a>
+        </div>
+      </header>
+      <section class="dashboard-widgets">
+        <div class="widget animate-pop"><div class="widget-title">Баланс</div><div class="widget-value">12 500 ₽</div></div>
+        <div class="widget animate-pop" style="animation-delay:0.1s"><div class="widget-title">Продажи</div><div class="widget-value">8</div></div>
+        <div class="widget animate-pop" style="animation-delay:0.2s"><div class="widget-title">Заработано за месяц</div><div class="widget-value">3 200 ₽</div></div>
+      </section>
+      <section class="dashboard-content animate-fadein" style="animation-delay:0.3s">
+        <h2>Моя статистика</h2>
+        <p>Здесь будет подробная статистика по вашей команде, доходу и активности.</p>
+      </section>
     </main>
   </div>
   <script>
 // Бургер-меню для мобильной навигации
-  document.addEventListener('DOMContentLoaded', function() {
-    const burger = document.getElementById('burger');
-    const sidebar = document.getElementById('sidebar');
-    burger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      burger.classList.toggle('active');
-      sidebar.classList.toggle('open');
-    });
-    // Клик вне меню — закрыть
-    document.addEventListener('click', function(e) {
-      if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
+document.addEventListener('DOMContentLoaded', function() {
+  const burger = document.getElementById('burger');
+  const sidebar = document.getElementById('sidebar');
+  burger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    burger.classList.toggle('active');
+    sidebar.classList.toggle('open');
+  });
+  // Клик вне меню — закрыть
+  document.addEventListener('click', function(e) {
+    if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
       burger.classList.remove('active');
       sidebar.classList.remove('open');
+    }
+  });
+});
+// Скрыть элемент загрузки после полной загрузки страницы
+  window.addEventListener("load", function() {
+    document.getElementById("loader").style.display = "none";
+  });
+document.addEventListener('DOMContentLoaded', function() {
+  const withdrawBtn = document.getElementById('withdraw-btn');
+  const modal = document.getElementById('withdraw-modal');
+  const modalClose = document.getElementById('modal-close');
+
+  // Открытие модального окна
+  if (withdrawBtn && modal && modalClose) {
+    withdrawBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.classList.add('show');
+    });
+
+    // Закрытие модального окна
+    modalClose.addEventListener('click', function() {
+      modal.classList.remove('show');
+    });
+
+    // Закрытие по клику вне модального окна
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('show');
       }
     });
-  });
-  </script>
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        modal.classList.remove('show');
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>
