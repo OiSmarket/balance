@@ -291,22 +291,42 @@
 /* Адаптивность для карточек (уменьшаем отступы и шрифт) */
 @media (max-width: 600px) {
   .balance-card {
-    padding: 20px 24px; /* Уменьшаем внутренние отступы */
+    padding: 12px 8px !important;
+    max-width: 100% !important;
+    border-radius: 12px !important;
   }
-
   .balance-label {
-    font-size: 0.9rem; /* Уменьшаем размер подписи */
-    margin-bottom: 8px;
+    font-size: 0.92rem !important;
+    margin-bottom: 6px !important;
   }
-
   .balance-amount {
-    font-size: 2rem; /* Уменьшаем размер баланса */
-    margin-bottom: 12px;
+    font-size: 1.4rem !important;
+    margin-bottom: 8px !important;
   }
-
+  .balance-actions {
+    gap: 10px !important;
+  }
   .balance-btn {
-    padding: 8px 18px; /* Уменьшаем отступы кнопок */
-    font-size: 0.9rem;
+    padding: 7px 14px !important;
+    font-size: 0.95rem !important;
+    border-radius: 7px !important;
+  }
+  .balance-analytics {
+    gap: 10px !important;
+  }
+  .balance-analytics-label {
+    font-size: 0.92rem !important;
+  }
+  .balance-analytics-value {
+    font-size: 1.05rem !important;
+  }
+  .balance-history {
+    padding: 8px 2px 4px 2px !important;
+    border-radius: 10px !important;
+  }
+  .modal-content {
+    padding: 16px 8px !important;
+    border-radius: 12px !important;
   }
 }
 
