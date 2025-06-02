@@ -330,7 +330,7 @@ body {
   }
 }
 @media (max-width: 900px) {
-  .burger { display: flex; }
+  .burger { display: flex; position: fixed; top: 16px; right: 16px; }
   .sidebar {
     position: fixed;
     left: -270px;
@@ -351,7 +351,12 @@ body {
     padding-right: 10px;
   }
   .dashboard-header {
-    padding-top: 16px;
+    padding-top: 56px; /* место для бургера */
+    justify-content: flex-start;
+    gap: 16px;
+  }
+  .dashboard-title {
+    font-size: 1.4rem;
   }
   .dashboard-content {
     padding-top: 18px;
@@ -359,6 +364,8 @@ body {
   .widget {
     padding: 18px 14px;
     border-radius: 14px;
+    width: 100%;
+    min-width: unset;
   }
   .sidebar-header {
     padding: 8px;
@@ -366,6 +373,9 @@ body {
   .dashboard-balance-history {
     padding: 10px 4px;
     border-radius: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
   }
 }
 @media (max-width: 600px) {
@@ -374,7 +384,7 @@ body {
     padding-right: 4px;
   }
   .dashboard-header {
-    padding-top: 8px;
+    padding-top: 44px;
   }
   .dashboard-content {
     padding-top: 10px;
@@ -382,6 +392,8 @@ body {
   .widget {
     padding: 10px 4px;
     border-radius: 10px;
+    width: 100%;
+    min-width: unset;
   }
   .sidebar-header {
     padding: 4px;
@@ -389,6 +401,9 @@ body {
   .dashboard-balance-history {
     padding: 4px 2px;
     border-radius: 8px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
   }
   .burger {
     top: 8px;
