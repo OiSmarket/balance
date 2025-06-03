@@ -3,493 +3,939 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OIS Market — Личный кабинет</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400,italic&display=swap" rel="stylesheet">
-  <style>
-:root {
-  --main-gradient: linear-gradient(120deg, #1a237e 0%, #e040fb 100%);
-  --sidebar-gradient: linear-gradient(120deg, #6a1878 0%, #340f54 100%);
-  --accent: #ff4081;
-  --white: #fff;
-  --glass-bg: rgba(255,255,255,0.13);
-  --glass-blur: blur(16px);
-  --glass-border: rgba(255,255,255,0.18);
-  --gray: #f5f5f7;
-  --blue: #1a237e;
-  --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Montserrat', Arial, sans-serif;
-  background: var(--main-gradient);
-  color: var(--white);
-  min-height: 100vh;
-  letter-spacing: 0.01em;
-}
-#loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Убедитесь, что он находится поверх всего */
-}
-
-.spinner {
-  border: 5px solid #f3f3f3; /* Светло-серый */
-  border-top: 5px solid #3498db; /* Синий */
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  backdrop-filter: var(--glass-blur);
-}
-
-.sidebar {
-  width: 270px;
-  background: var(--sidebar-gradient);
-  display: flex;
-  flex-direction: column;
-  padding: 36px 0 0 0;
-  box-shadow: 2px 0 24px rgba(26,35,126,0.10);
-  border-right: 1.5px solid var(--glass-border);
-  position: relative;
-  z-index: 1000;
-  transition: left 0.3s cubic-bezier(.4,2,.6,1);
-}
-
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  padding: 0 32px 32px 32px;
-  border-bottom: 1px solid rgba(255,255,255,0.10);
-  position: relative;
-}
-
-.avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  margin-right: 20px;
-  border: 3px solid var(--accent);
-  background: var(--white);
-  box-shadow: 0 2px 12px rgba(224,64,251,0.10);
-  object-fit: cover;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-weight: 700;
-  font-size: 1.15rem;
-  margin-bottom: 4px;
-  color: var(--white);
-}
-
-.user-role {
-  font-size: 0.98rem;
-  color: var(--accent);
-  opacity: 0.85;
-  font-weight: 500;
-}
-
-/* Бургер-иконка в правом верхнем углу экрана */
-.burger {
-  display: none;
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  width: 44px;
-  height: 44px;
-  z-index: 2001;
-  background: var(--glass-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(32,8,64,0.10);
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin: 0;
-}
-.burger span {
-  display: block;
-  width: 28px;
-  height: 4px;
-  margin: 4px 0;
-  background: var(--white);
-  border-radius: 2px;
-  transition: 0.3s;
-}
-.burger.active {
-  background: var(--glass-bg);
-}
-.burger.active span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-}
-.burger.active span:nth-child(2) {
-  opacity: 0;
-}
-.burger.active span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-}
-
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  margin-top: 36px;
-  gap: 8px;
-  padding: 0 18px;
-  transition: max-height 0.35s cubic-bezier(.4,2,.6,1), padding 0.2s;
-}
-
-.sidebar-nav a {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--white);
-  text-decoration: none;
-  padding: 14px 22px;
-  border-radius: 12px;
-  font-size: 1.05rem;
-  opacity: 0.85;
-  transition: 
-    background 0.18s, 
-    opacity 0.18s, 
-    color 0.18s, 
-    box-shadow 0.18s;
-  font-weight: 500;
-  position: relative;
-}
-
-.sidebar-nav a.active,
-.sidebar-nav a:hover {
-  background: var(--glass-bg);
-  box-shadow: 0 2px 12px rgba(224,64,251,0.10);
-  opacity: 1;
-  color: var(--accent);
-}
-
-.sidebar-nav a.active::before,
-.sidebar-nav a:hover::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 32px;
-  border-radius: 4px;
-  background: var(--accent);
-  opacity: 0.7;
-}
-
-.dashboard-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255,255,255,0.04);
-  min-height: 100vh;
-  backdrop-filter: var(--glass-blur);
-}
-
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 48px 0 48px;
-}
-
-.dashboard-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--white);
-  letter-spacing: 0.01em;
-  text-shadow: 0 2px 12px rgba(32, 8, 64, 0.10);
-}
-
-.dashboard-actions {
-  display: flex;
-  gap: 22px;
-}
-
-.action-btn {
-  color: var(--white);
-  font-size: 1.5rem;
-  opacity: 0.8;
-  transition: opacity 0.2s, color 0.2s, transform 0.2s;
-  text-decoration: none;
-  border-radius: 50%;
-  padding: 8px;
-  background: transparent;
-  border: none;
-  outline: none;
-}
-.action-btn:hover {
-  opacity: 1;
-  color: var(--accent);
-  background: var(--glass-bg);
-  transform: scale(1.12);
-}
-
-.dashboard-widgets {
-  display: flex;
-  gap: 36px;
-  padding: 36px 48px 0 48px;
-  flex-wrap: wrap;
-}
-
-.widget {
-  background: var(--glass-bg);
-  border-radius: 22px;
-  padding: 32px 44px;
-  min-width: 210px;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1.5px solid var(--glass-border);
-  backdrop-filter: var(--glass-blur);
-  transition: box-shadow 0.18s, transform 0.18s;
-  position: relative;
-  overflow: hidden;
-}
-.widget:hover {
-  box-shadow: 0 8px 40px rgba(224,64,251,0.18);
-  transform: translateY(-4px) scale(1.03);
-}
-
-.widget-title {
-  font-size: 1.08rem;
-  color: var(--white);
-  opacity: 0.85;
-  margin-bottom: 12px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-.widget-value {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: 0.01em;
-}
-
-.dashboard-content {
-  padding: 48px 48px 0 48px;
-}
-
-.dashboard-content h2 {
-  font-size: 1.5rem;
-  margin-bottom: 22px;
-  color: var(--white);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-.dashboard-content p {
-  color: var(--white);
-  opacity: 0.92;
-  font-size: 1.13rem;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-/* Адаптивность и бургер-меню */
-@media (max-width: 1200px) {
-  .dashboard-widgets {
-    flex-direction: column;
-    gap: 22px;
-  }
-  .widget {
-    width: 100%;
-    min-width: unset;
-  }
-}
-
-@media (max-width: 900px) {
-  .burger { display: flex; }
-  .sidebar {
-    position: fixed;
-    left: -270px;
-    top: 0;
-    height: 100vh;
-    width: 270px;
-    transition: left 0.3s cubic-bezier(.4,2,.6,1);
-    z-index: 1000;
-  }
-  .sidebar.open {
-    left: 0;
-  }
-  .dashboard-container {
-    padding-left: 0 !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .dashboard-header, .dashboard-widgets, .dashboard-content {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .dashboard-header {
-    padding-top: 16px;
-  }
-  .dashboard-content {
-    padding-top: 18px;
-  }
-  .widget {
-    padding: 18px 14px;
-    border-radius: 14px;
-  }
-  .sidebar-header {
-    padding: 8px;
-  }
-}
-
-/* Анимации */
-@keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slidein {
-  from { opacity: 0; transform: translateY(-30px);}
-  to   { opacity: 1; transform: translateY(0);}
-}
-@keyframes pop {
-  0%   { opacity: 0; transform: scale(0.7);}
-  80%  { opacity: 1; transform: scale(1.05);}
-  100% { opacity: 1; transform: scale(1);}
-}
-.animate-fadein {
-  animation: fadein 0.7s cubic-bezier(.4,2,.6,1) both;
-}
-.animate-slidein {
-  animation: slidein 0.7s cubic-bezier(.4,2,.6,1) both;
-}
-.animate-pop {
-  animation: pop 0.7s cubic-bezier(.4,2,.6,1) both;
-}
-  </style>
+  <title>OIS Market — Баланс</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400italic&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/4e9c8e4e7b.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --main-gradient: linear-gradient(120deg, #1a237e 0%, #e040fb 100%);
+      --sidebar-gradient: linear-gradient(120deg, #6a1878 0%, #340f54 100%);
+      --accent: #ff4081;
+      --white: #fff;
+      --glass-bg: rgba(255,255,255,0.13);
+      --glass-blur: blur(16px);
+      --glass-border: rgba(255,255,255,0.18);
+      --gray: #f5f5f7;
+      --blue: #1a237e;
+      --shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
+      --success: #4caf50;
+      --warning: #ff9800;
+      --error: #f44336;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--main-gradient);
+      color: var(--white);
+      min-height: 100vh;
+      letter-spacing: 0.01em;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+
+    .sidebar {
+      width: 270px;
+      background: var(--sidebar-gradient);
+      display: flex;
+      flex-direction: column;
+      padding: 36px 0 0 0;
+      box-shadow: 2px 0 24px rgba(26,35,126,0.10);
+      border-right: 1.5px solid var(--glass-border);
+      position: relative;
+      z-index: 1000;
+      transition: left 0.3s cubic-bezier(.4,2,.6,1);
+      will-change: left;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 0 32px 32px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      position: relative;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin-right: 20px;
+      border: 3px solid var(--accent);
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(224,64,251,0.10);
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+
+    .user-role {
+      font-size: 0.98rem;
+      color: var(--accent);
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    .burger {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      z-index: 2001;
+      background: var(--glass-bg);
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(32,8,64,0.10);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin: 0;
+    }
+    .burger span {
+      display: block;
+      width: 28px;
+      height: 4px;
+      margin: 4px 0;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .burger.active {
+      background: var(--glass-bg);
+    }
+    .burger.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .burger.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      margin-top: 36px;
+      gap: 8px;
+      padding: 0 18px;
+      transition: max-height 0.35s cubic-bezier(.4,2,.6,1), padding 0.2s;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      opacity: 0.85;
+      transition: 
+        background 0.18s, 
+        opacity 0.18s, 
+        color 0.18s, 
+        box-shadow 0.18s;
+      font-weight: 500;
+      position: relative;
+    }
+.sidebar-nav a.active,
+    .sidebar-nav a:hover {
+      background: var(--glass-bg);
+      box-shadow: 0 2px 12px rgba(224,64,251,0.10);
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .sidebar-nav a.active::before,
+    .sidebar-nav a:hover::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 32px;
+      border-radius: 4px;
+      background: var(--accent);
+      opacity: 0.7;
+      transition: opacity 0.18s;
+    }
+
+    .dashboard-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.04);
+      min-height: 100vh;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 48px 0 48px;
+      transition: padding 0.2s;
+    }
+
+    .dashboard-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 12px rgba(32, 8, 64, 0.10);
+    }
+
+    .dashboard-actions {
+      display: flex;
+      gap: 22px;
+    }
+
+    .action-btn {
+      color: var(--white);
+      font-size: 1.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s, color 0.2s, transform 0.2s;
+      text-decoration: none;
+      border-radius: 50%;
+      padding: 8px;
+      background: transparent;
+      border: none;
+      outline: none;
+    }
+    .action-btn:hover,
+    .action-btn:focus {
+      opacity: 1;
+      color: var(--accent);
+      background: var(--glass-bg);
+      transform: scale(1.12);
+      outline: 2px solid var(--accent);
+    }
+
+    /* Баланс виджеты */
+    .balance-widgets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 36px 48px 0 48px;
+      transition: padding 0.2s;
+    }
+
+    .balance-card {
+      background: var(--glass-bg);
+      border-radius: 22px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      transition: box-shadow 0.18s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .balance-card:hover {
+      box-shadow: 0 8px 40px rgba(224,64,251,0.18);
+      transform: translateY(-4px);
+    }
+
+    .balance-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .balance-card-title {
+      font-size: 1.1rem;
+      color: var(--white);
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .balance-card-icon {
+      font-size: 1.8rem;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .balance-amount {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .balance-subtitle {
+      font-size: 0.95rem;
+      color: var(--white);
+      opacity: 0.7;
+    }
+
+    /* Кнопки действий */
+    .balance-actions {
+      display: flex;
+      gap: 16px;
+      padding: 24px 48px 0 48px;
+      flex-wrap: wrap;
+    }
+
+    .balance-btn {
+      background: var(--glass-bg);
+      border: 1.5px solid var(--glass-border);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+    .balance-btn:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(224,64,251,0.3);
+    }
+    .balance-btn.secondary {
+      background: rgba(255,255,255,0.08);
+    }
+    .balance-btn.secondary:hover {
+      background: var(--blue);
+    }
+/* История транзакций */
+    .transactions-section {
+      padding: 48px 48px 0 48px;
+      transition: padding 0.2s;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .transactions-list {
+      background: var(--glass-bg);
+      border-radius: 18px;
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      overflow: hidden;
+    }
+
+    .transaction-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.2s;
+    }
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+    .transaction-item:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .transaction-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .transaction-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .transaction-icon.income {
+      background: rgba(76,175,80,0.2);
+      color: var(--success);
+    }
+    .transaction-icon.expense {
+      background: rgba(244,67,54,0.2);
+      color: var(--error);
+    }
+
+    .transaction-details h4 {
+      color: var(--white);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .transaction-details p {
+      color: var(--white);
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    .transaction-amount {
+      text-align: right;
+    }
+    .transaction-amount .amount {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .transaction-amount .amount.positive {
+      color: var(--success);
+    }
+    .transaction-amount .amount.negative {
+      color: var(--error);
+    }
+    .transaction-amount .date {
+      font-size: 0.85rem;
+      color: var(--white);
+      opacity: 0.6;
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3001;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(26,35,126,0.45);
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal.show {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--glass-bg);
+      border-radius: 18px;
+      padding: 32px 28px;
+      min-width: 400px;
+      max-width: 90vw;
+      box-shadow: 0 8px 32px rgba(32, 8, 64, 0.18);
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      color: var(--white);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      font-size: 1.5rem;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .modal-close:hover { opacity: 1; }
+
+    .modal h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1.5px solid var(--glass-border);
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .form-group input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+/* Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(26,35,126,0.85);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 1200px) {
+      .balance-widgets {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .burger { display: flex; }
+      .sidebar {
+        position: fixed;
+        left: -270px;
+        top: 0;
+        height: 100vh;
+        width: 270px;
+        transition: left 0.3s cubic-bezier(.4,2,.6,1);
+        z-index: 1000;
+      }
+      .sidebar.open {
+        left: 0;
+      }
+      .dashboard-container {
+        padding-left: 0 !important;
+      }
+      .balance-widgets {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .dashboard-header, .balance-widgets, .balance-actions, .transactions-section {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .dashboard-header {
+        padding-top: 16px;
+      }
+      .balance-card {
+        padding: 20px;
+      }
+      .balance-actions {
+        flex-direction: column;
+      }
+      .balance-btn {
+        justify-content: center;
+      }
+      .modal-content {
+        min-width: 90vw;
+        padding: 20px 16px;
+      }
+      .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .transaction-amount {
+        text-align: left;
+        width: 100%;
+      }
+    }
+
+    /* Анимации */
+    @keyframes fadein {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slidein {
+      from { opacity: 0; transform: translateY(-30px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes pop {
+      0%   { opacity: 0; transform: scale(0.7);}
+      80%  { opacity: 1; transform: scale(1.05);}
+      100% { opacity: 1; transform: scale(1);}
+    }
+    .animate-fadein {
+      animation: fadein 0.7s cubic-bezier(.4,2,.6,1) both;
+    }
+    .animate-slidein {
+      animation: slidein 0.7s cubic-bezier(.4,2,.6,1) both;
+    }
+    .animate-pop {
+      animation: pop 0.7s cubic-bezier(.4,2,.6,1) both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div id="loader">
-  <div class="spinner"></div>
-</div>
-  <!-- Бургер вне сайдбара! -->
-  <div class="burger" id="burger">
+  <!-- Loader -->
+  <div id="loader">Загрузка...</div>
+
+  <!-- Бургер меню -->
+  <div class="burger" id="burger" aria-label="Открыть меню" tabindex="0">
     <span></span>
     <span></span>
     <span></span>
   </div>
+
   <div class="dashboard-container">
     <aside class="sidebar animate-fadein" id="sidebar">
       <div class="sidebar-header">
-        <img src="Img/Logo.png" alt="Аватар" class="avatar">
+        <img src="https://placehold.co/80x80" alt="Аватар пользователя Иван Иванов" class="avatar">
         <div class="user-info">
           <div class="user-name">Иван Иванов</div>
           <div class="user-role">Партнёр</div>
         </div>
       </div>
       <nav class="sidebar-nav" id="sidebarNav">
-        <a href="https://oismarket.github.io/dashboard-main/" class="active"><i class="fas fa-home"></i> Главная</a>
-        <a href="https://oismarket.github.io/balance/"><i class="fas fa-wallet"></i> Баланс</a>
+        <a href="#"><i class="fas fa-home"></i> Главная</a>
+        <a href="#" class="active"><i class="fas fa-wallet"></i> Баланс</a>
         <a href="#"><i class="fas fa-graduation-cap"></i> Обучение</a>
         <a href="#"><i class="fas fa-sign-out-alt"></i> Выйти</a>
       </nav>
     </aside>
+
     <main class="dashboard-main">
       <header class="dashboard-header animate-slidein">
-        <div class="dashboard-title">Добро пожаловать, Иван!</div>
+        <div class="dashboard-title">Мой баланс</div>
         <div class="dashboard-actions">
           <a href="#" class="action-btn"><i class="fas fa-bell"></i></a>
           <a href="#" class="action-btn"><i class="fas fa-question-circle"></i></a>
         </div>
       </header>
-      <section class="dashboard-widgets">
-        <div class="widget animate-pop"><div class="widget-title">Баланс</div><div class="widget-value">12 500 ₽</div></div>
-        <div class="widget animate-pop" style="animation-delay:0.1s"><div class="widget-title">Продажи</div><div class="widget-value">8</div></div>
-        <div class="widget animate-pop" style="animation-delay:0.2s"><div class="widget-title">Заработано за месяц</div><div class="widget-value">3 200 ₽</div></div>
+<!-- Карточки баланса -->
+      <section class="balance-widgets">
+        <div class="balance-card animate-pop">
+          <div class="balance-card-header">
+            <div class="balance-card-title">Основной баланс</div>
+            <div class="balance-card-icon"><i class="fas fa-wallet"></i></div>
+          </div>
+          <div class="balance-amount">12 500 ₽</div>
+          <div class="balance-subtitle">Доступно для вывода</div>
+        </div>
+
+        <div class="balance-card animate-pop" style="animation-delay:0.1s">
+          <div class="balance-card-header">
+            <div class="balance-card-title">Заработано за месяц</div>
+            <div class="balance-card-icon"><i class="fas fa-chart-line"></i></div>
+          </div>
+          <div class="balance-amount">3 200 ₽</div>
+          <div class="balance-subtitle">+15% к прошлому месяцу</div>
+        </div>
+
+        <div class="balance-card animate-pop" style="animation-delay:0.2s">
+          <div class="balance-card-header">
+            <div class="balance-card-title">Заморожено</div>
+            <div class="balance-card-icon"><i class="fas fa-lock"></i></div>
+          </div>
+          <div class="balance-amount">850 ₽</div>
+          <div class="balance-subtitle">Ожидает подтверждения</div>
+        </div>
+
+        <div class="balance-card animate-pop" style="animation-delay:0.3s">
+          <div class="balance-card-header">
+            <div class="balance-card-title">Реферальный доход</div>
+            <div class="balance-card-icon"><i class="fas fa-users"></i></div>
+          </div>
+          <div class="balance-amount">1 750 ₽</div>
+          <div class="balance-subtitle">От 8 рефералов</div>
+        </div>
       </section>
-      <section class="dashboard-content animate-fadein" style="animation-delay:0.3s">
-        <h2>Моя статистика</h2>
-        <p>Здесь будет подробная статистика по вашей команде, доходу и активности.</p>
+
+      <!-- Кнопки действий -->
+      <section class="balance-actions animate-fadein" style="animation-delay:0.4s">
+        <button class="balance-btn" id="withdraw-btn">
+          <i class="fas fa-money-bill-wave"></i>
+          Вывести средства
+        </button>
+        <button class="balance-btn secondary" id="topup-btn">
+          <i class="fas fa-plus"></i>
+          Пополнить баланс
+        </button>
+        <button class="balance-btn secondary" id="transfer-btn">
+          <i class="fas fa-exchange-alt"></i>
+          Перевести другу
+        </button>
+      </section>
+
+      <!-- История транзакций -->
+      <section class="transactions-section animate-fadein" style="animation-delay:0.5s">
+        <h2 class="section-title">История операций</h2>
+        <div class="transactions-list">
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon income">
+                <i class="fas fa-arrow-down"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>Комиссия с продажи</h4>
+                <p>Продажа курса "Основы маркетинга"</p>
+              </div>
+            </div>
+            <div class="transaction-amount">
+              <div class="amount positive">+1 250 ₽</div>
+              <div class="date">Сегодня, 14:30</div>
+            </div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon expense">
+                <i class="fas fa-arrow-up"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>Вывод средств</h4>
+                <p>На карту **** 1234</p>
+              </div>
+            </div>
+            <div class="transaction-amount">
+              <div class="amount negative">-5 000 ₽</div>
+              <div class="date">Вчера, 16:45</div>
+            </div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon income">
+
+<i class="fas fa-users"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>Реферальная комиссия</h4>
+                <p>От пользователя Петр И.</p>
+              </div>
+            </div>
+            <div class="transaction-amount">
+              <div class="amount positive">+320 ₽</div>
+              <div class="date">2 дня назад</div>
+            </div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon income">
+                <i class="fas fa-gift"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>Бонус за активность</h4>
+                <p>Еженедельный бонус</p>
+              </div>
+            </div>
+            <div class="transaction-amount">
+              <div class="amount positive">+500 ₽</div>
+              <div class="date">3 дня назад</div>
+            </div>
+          </div>
+
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon income">
+                <i class="fas fa-arrow-down"></i>
+              </div>
+              <div class="transaction-details">
+                <h4>Комиссия с продажи</h4>
+                <p>Продажа курса "SMM продвижение"</p>
+              </div>
+            </div>
+            <div class="transaction-amount">
+              <div class="amount positive">+2 100 ₽</div>
+              <div class="date">5 дней назад</div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
+
+  <!-- Модальное окно вывода средств -->
+  <div class="modal" id="withdraw-modal" tabindex="-1">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close" aria-label="Закрыть">&times;</button>
+      <h3>Вывод средств</h3>
+      <form id="withdraw-form">
+        <div class="form-group">
+          <label for="withdraw-amount">Сумма вывода</label>
+          <input type="number" id="withdraw-amount" placeholder="Введите сумму" min="100" max="12500">
+        </div>
+        <div class="form-group">
+          <label for="withdraw-method">Способ вывода</label>
+          <select id="withdraw-method">
+            <option value="">Выберите способ</option>
+            <option value="card">Банковская карта</option>
+            <option value="qiwi">QIWI кошелек</option>
+            <option value="yandex">Яндекс.Деньги</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="withdraw-details">Реквизиты</label>
+          <input type="text" id="withdraw-details" placeholder="Номер карты или кошелька">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="balance-btn secondary" id="cancel-withdraw">Отмена</button>
+          <button type="submit" class="balance-btn">Вывести</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно пополнения -->
+  <div class="modal" id="topup-modal" tabindex="-1">
+    <div class="modal-content">
+      <button class="modal-close" id="topup-modal-close" aria-label="Закрыть">&times;</button>
+      <h3>Пополнение баланса</h3>
+      <form id="topup-form">
+        <div class="form-group">
+          <label for="topup-amount">Сумма пополнения</label>
+          <input type="number" id="topup-amount" placeholder="Введите сумму" min="100">
+        </div>
+        <div class="form-group">
+          <label for="topup-method">Способ пополнения</label>
+          <select id="topup-method">
+            <option value="">Выберите способ</option>
+            <option value="card">Банковская карта</option>
+            <option value="sbp">Система быстрых платежей</option>
+            <option value="qiwi">QIWI кошелек</option>
+
+Oleksandr, [03.06.2025 16:34]
+</select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="balance-btn secondary" id="cancel-topup">Отмена</button>
+          <button type="submit" class="balance-btn">Пополнить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-// Бургер-меню для мобильной навигации
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
+  // Бургер-меню
   const burger = document.getElementById('burger');
   const sidebar = document.getElementById('sidebar');
-  burger.addEventListener('click', function(e) {
-    e.stopPropagation();
-    burger.classList.toggle('active');
-    sidebar.classList.toggle('open');
-  });
-  // Клик вне меню — закрыть
-  document.addEventListener('click', function(e) {
-    if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
-      burger.classList.remove('active');
-      sidebar.classList.remove('open');
-    }
-  });
-});
-// Скрыть элемент загрузки после полной загрузки страницы
-  window.addEventListener("load", function() {
-    document.getElementById("loader").style.display = "none";
-  });
-document.addEventListener('DOMContentLoaded', function() {
-  const withdrawBtn = document.getElementById('withdraw-btn');
-  const modal = document.getElementById('withdraw-modal');
-  const modalClose = document.getElementById('modal-close');
-
-  // Открытие модального окна
-  if (withdrawBtn && modal && modalClose) {
-    withdrawBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      modal.classList.add('show');
+  if (burger && sidebar) {
+    burger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      burger.classList.toggle('active');
+      sidebar.classList.toggle('open');
+      document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
     });
 
-    // Закрытие модального окна
-    modalClose.addEventListener('click', function() {
-      modal.classList.remove('show');
-    });
-
-    // Закрытие по клику вне модального окна
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.classList.remove('show');
+    burger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        burger.click();
       }
     });
 
-    // Закрытие по ESC
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.classList.contains('show')) {
-        modal.classList.remove('show');
+    document.addEventListener('click', function(e) {
+      if (!burger.contains(e.target) && !sidebar.contains(e.target)) {
+        burger.classList.remove('active');
+        sidebar.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 900) {
+        burger.classList.remove('active');
+        sidebar.classList.remove('open');
+        document.body.style.overflow = '';
       }
     });
   }
+
+  // Модальные окна
+  function setupModal(btnId, modalId, closeId, cancelId = null) {
+    const btn = document.getElementById(btnId);
+    const modal = document.getElementById(modalId);
+    const closeBtn = document.getElementById(closeId);
+    const cancelBtn = cancelId ? document.getElementById(cancelId) : null;
+
+    function closeModal() {
+      if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (btn && modal && closeBtn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+      });
+    }
+  }
+
+  // Настройка модального окна "Вывести"
+  setupModal('withdraw-btn', 'withdraw-modal', 'modal-close');
+
+  // Кнопка перевода (заглушка)
+  const transferBtn = document.getElementById('transfer-btn');
+  if (transferBtn) {
+    transferBtn.addEventListener('click', function() {
+      alert('Функция перевода будет доступна в ближайшее время');
+    });
+  }
 });
-</script>
+
+// Скрыть лоадер после полной загрузки страницы
+window.addEventListener("load", function() {
+  const loader = document.getElementById("loader");
+  if (loader) loader.style.display = "none";
+});
+  </script>
 </body>
 </html>
